@@ -1,5 +1,4 @@
-% re-chaos
-Internals of Chaos Overlords
+# Internals of Chaos Overlords (1996)
 
 ## Data file formats
 * Strings are ASCII, not null-terminated.
