@@ -114,3 +114,61 @@ It is sufficient to fix up the following bytes to make the images readable:
 |     16 |      4 |  int32 | Height
 |     1A |      2 |  int16 | Color planes (1)
 |     1C |      2 |  int16 | Bits per pixel (16)
+
+## Save game format
+There are two slightly different save game formats, 
+determined by the magic marker at the start.
+
+* If the save game starts with 0x57303453, the size is 45305 bytes.
+* If the save game starts with 0x5730344E, the size is 45329 bytes.
+
+
+| Offset | Length | Type                | Description
+|-------:|-------:|---------------------|-------------
+|      0 |      4 |               int32 | Magic (0x57303453 or 0x5730344E)
+|      4 |  15552 | GangInstance[6][81] | Gang instances
+|   3CC4 |   2304 |    SectorData36[64] | Sectors
+|   45C4 |     24 |            int32[6] | Player cursor positions (sector ID)
+|   45DC |      6 |             int8[6] | Player portraits
+|   45E2 |     24 |            int32[6] | Player status (Human, AI, ...)
+|   45FA |      4 |               int32 | Turn number
+|   45FE |      4 |               int32 | Objective
+|   4602 |      4 |               int32 | Max turns
+|   4606 |     24 |            int32[6] | `cash[player_id]`
+|   461E |     18 |          int8[6][3] | `hire_pool[player_id][] = gang_id`
+|   4630 |     18 |          int8[6][3] | `hire_pool_target[player_id][] = sector_id`
+|   4642 |    384 |         int8[64][6] | `research_progress[item_id][player_id]`
+|   47C2 |      6 |             int8[6] | `player_alive[player_id] = bool`
+|   47C8 |   7776 |   GangData16[6][81] | `...[player_id][gang_nr]`
+|   6628 |      6 |             int8[6] | UNKNOWN `[player_id]`
+|   662E |     24 |            int32[6] | UNKNOWN `[player_id]`
+|   6646 |   1944 |        int32[6][81] | UNKNOWN `[player_id][gang_nr]`
+|   6DDE |      6 |             int8[6] | UNKNOWN `[player_id]`
+|   6DE4 |     24 |            int32[6] | Initial HQ position + 64
+|   6DFC |     24 |            int32[6] | UNKNOWN `[player_id]`
+|   6E14 |     24 |            int32[6] | UNKNOWN `[player_id]`
+|   6E2C |     24 |            int32[6] | Score
+|   6E44 |    256 |        int16[64][2] | Sector crackdown history
+|   6F44 |   1920 | Notification[6][32] | Notification queues
+|   76C4 |   9600 |   SectorData150[64] | TBD
+|   9C44 |   4860 |   GangData10[6][81] | TBD
+|   AF40 |      2 |               int16 | Current player id
+|   AF42 |     72 |         char[6][12] | Player names (Pascal style strings)
+|   AF8A |     24 |            int32[6] | Total sectors overtaken
+|   AFA2 |     24 |            int32[6] | Total damage inflicted
+|   AFBA |     24 |            int32[6] | Total times hidden
+|   AFD2 |     24 |            int32[6] | Total cash spent
+|   AFEA |     24 |            int32[6] | Total casualties
+|   B002 |     24 |            int32[6] | Total cash earned
+|   B01A |    144 |         int32[6][6] | UNKNOWN
+|   B0AA |     24 |            int32[6] | UNKNOWN
+|   B0C2 |      6 |             int8[6] | UNKNOWN
+|   B0C8 |     24 |            int32[6] | Luck boost
+|   B0E0 |      6 |             int8[6] | Is player human?
+|   B0E6 |      1 |                int8 | Preference: Difficulty
+|   B0E7 |      1 |                int8 | Preference: Time Limit
+|   B0E8 |      1 |                int8 | Preference: Objective
+|   B0E9 |      6 |             int8[6] | Cheat Hubble Yes/No
+|   B0EF |      6 |             int8[6] | Cheat Milk Yes/No
+|   B0F5 |     24 |            int32[6] | UNKNOWN, only present if magic == 0x5730344E
+|   B10D |      4 |               int32 | Magic (0x57303453 or 0x5730344E)
