@@ -134,7 +134,7 @@ determined by the magic marker at the start.
 |   45FA |      4 |               int32 | Turn number
 |   45FE |      4 |               int32 | Objective
 |   4602 |      4 |               int32 | Max turns
-|   4606 |     24 |            int32[6] | `cash[player_id]`
+|   4606 |     24 |            int32[6] | Cash `[player_id]`
 |   461E |     18 |          int8[6][3] | `hire_pool[player_id][] = gang_id`
 |   4630 |     18 |          int8[6][3] | `hire_pool_target[player_id][] = sector_id`
 |   4642 |    384 |         int8[64][6] | `research_progress[item_id][player_id]`
