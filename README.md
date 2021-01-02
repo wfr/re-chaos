@@ -104,7 +104,8 @@ Sounds are stored as regular WAV files.
 RIFF (little-endian) data, WAVE audio, Microsoft PCM, 8 bit, mono 22050 Hz.
 
 ## PX16/PXxxxxx
-These are uncompress BMP images with the header zeroed out. The headers are hardcoded in the executable.
+These are uncompressed BMP images with parts of the header zeroed out. The
+headers are hardcoded in the executable.
 
 It is sufficient to fix up the following bytes to make the images readable:
 
