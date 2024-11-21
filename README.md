@@ -1,12 +1,52 @@
-# Internals of Chaos Overlords (1996)
+# RE: Chaos Overlords (1996)
+This repository documents the reverse engineering progress of the classic
+turn-based strategy game [Chaos Overlords][Wikipedia_Chaos_Overlords].
+
+All information here is based on the last available release for Windows 95:
+```
+$ sha256sum "Chaos Overlords.exe"
+0791e6209d573a79882675d1236737f5c9b369ea4af541a7dbd03cbadf4493d5
+```
+
+## About this project
+
+### Disclaimer
+I began deconstructing and decompiling Chaos Overlords as a low-priority side
+project in 2020, initially only to practice reverse engineering with a fun
+target. It then lay dormant for a few years due to a lack of interest and time.
+Now I have even less time to dedicate to it. Progress will continue at a
+glacial pace. Do not expect to see a working re-implementation anytime soon; it
+may never even be finished.  Nevertheless it would be a waste to let the
+information gathered thus far rot on my SSD, so here it is.
+
+### Goals
+The hypothetical long-term goal is a modern, open-source re-implementation — a
+perfectly deterministic copy of the original. That is, if one were to extract
+the RNG seed from the original and start the clone with it, everything,
+including the AI, should behave exactly the same.
+
+Additionally, the clone should feature optional improvements:
+
+- Display scaling (2x, 3x, 4x, etc. to keep the pixel art pristine).
+- Widescreen support (more game state displayed on one screen).
+- Improved keyboard controls
+
+Compatibility may be broken for networking. The original networking code is not
+robust or secure. I strongly recommend against exposing the original game to
+the internet.
 
 ## Data file formats
-* Strings are ASCII, not null-terminated.
-* Integers are stored in Little Endian byte order.
-* Offsets in this document are in base 16.
+* Most strings are ASCII, not null-terminated.
+* Some strings are stored Pascal-style, i.e. not terminated but prefixed with
+  their length (`uint8_t`).
+* All integers are stored in Little Endian byte order.
 
 ### SITES
-22 * 62 byte = 1364 byte.
+```
+sizeof(Site): 62
+len(sites): 22
+Total: 1364 bytes
+```
 
 | Offset | Length | Type   | Description
 |-------:|-------:|--------|-------------
@@ -36,13 +76,17 @@
 #### Special flags
 | Value | Meaning
 |------:|---------
-|     0 |
+|     0 | Nothing
 |     1 | SCIENCE CENTER (Tech 8)
 |     2 | RESEARCH LAB (Tech 10)
 |     3 | FACTORY
 
 ### GANGS
-90 * 156 byte = 14040 byte
+```
+sizeof(Gang): 156 bytes
+len(gangs): 90
+Total: 14040 bytes
+```
 
 | Offset | Length | Type   | Description
 |-------:|-------:|--------|-------------
@@ -68,7 +112,11 @@
 |     9A |      2 | int16  | Martial Arts
 
 ### ITEMS
-160 * 166 byte = 10624 byte
+```
+sizeof(Item): 166 bytes
+len(items): 160
+Total: 10624 bytes
+```
 
 | Offset | Length | Type   | Description
 |-------:|-------:|--------|-------------
@@ -173,3 +221,10 @@ determined by the magic marker at the start.
 |   B0EF |      6 |             int8[6] | Cheat Milk Yes/No
 |   B0F5 |     24 |            int32[6] | UNKNOWN, only present if magic == 0x5730344E
 |   B10D |      4 |               int32 | Magic (0x57303453 or 0x5730344E)
+
+
+## References
+* [Wikipedia: Chaos Overlords][Wikipedia_Chaos_Overlords]
+* [GOG: Chaos Overlords](https://www.gog.com/de/game/chaos_overlords)
+
+[Wikipedia_Chaos_Overlords]: https://en.wikipedia.org/wiki/Chaos_Overlords
